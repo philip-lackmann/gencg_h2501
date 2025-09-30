@@ -6,11 +6,11 @@ const Constraint = Matter.Constraint;
 const Composite = Matter.Composite;
 
 // ------------ Grid settings ------------
-const GRID_ROWS = 6;   // try 2–5
-const GRID_COLS = 12;   // try 2–6
+const GRID_ROWS = 6;
+const GRID_COLS = 12;
 
 // ------------ Rendering symmetry ------------
-const symmetryCount = 12; // 1 disables kaleidoscope
+const symmetryCount = 6; // 1 disables kaleidoscope
 const symmetryOffset = 0;
 
 // ------------ Base physics config ------------
@@ -21,7 +21,7 @@ const baseCfg = {
     mass2: 1.0,
     air: 0.0025,
     stiff: 0.999,
-    gravity: 0.7,
+    gravity: 0.2,
     len: 128,
     shouldShowPendulum: false
 };
@@ -32,7 +32,7 @@ const rndCfg = {
     mass2: 1.0,
     air: 0.0025,
     // stiff: 0.999,
-    gravity: 0.2,
+    gravity: 0.1,
 }
 
 let colorCfg;

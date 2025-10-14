@@ -24,6 +24,7 @@ The original idea was not to create something resembling mountains.
 To explore p5 for the first time I simply drew lines across the window at random angles.
 I then drew other shapes to erase those lines at random positions.
 By playing around with parameters and by chance I was left with lines somewhat resembling mountains.
+So not only did I generate art, but my concept of what I wanted to make generated itself, step by step.
 
 I expanded on that and now I am left with choosing random positions on the screen, drawing two lines downwards at an angle to create
 the mountain ridge. 
@@ -67,7 +68,7 @@ By interpolating between the color of a pixel from both images a morphing effect
 </div>
 {% endraw %}
 
-# Day 01
+# Day 03
 ## Time
 ### Solar System
 To understand time, perhaps we can start to look at how we measure it.
@@ -75,3 +76,15 @@ Our units of time, in many cultures, were derived from the solar system - an obj
 Although a very objective take, the solar system also visualizes the insignificance of a human's life, or even humanity's existence,
 which is a blip in time relative to the beginning of our universe. 
 Just imagine you were living on neptune. One year would take around two human lives, or 164.8 years.
+
+# Day 04
+## Drawing Machines
+### Bubble Machine
+I started drawing circles at the mouse and came up with the following rule:
+The velocity of the mouse determines the radius of the circle.
+As I was drawing with this machine it reminded me of air bubbles in water.
+Inspired by this I animated the bubbles surfacing to the top of the screen.
+Just like a bubble popping, they play a sound when reaching the top - the pitch depending on the radius of the bubble.
+By quantizing the pitch of the sound to a pentatonic scale no "wrong" (or dissonant) notes can be played.
+I chose the sound of a kalimba for this, because - naturally - many kalimbas are tuned to a pentatonic scale.
+Finally, by pressing the mouse button, drawing circles can be interrupted to have some more control over rhythm.

@@ -3,20 +3,12 @@
 ## Computing without computer
 
 ### Sprout
-Dots are placed randomly. Two players take turns to connect two dots each time. 
-If a dot has three connections it cannot be used anymore. 
+Dots are placed randomly. Two players take turns to connect two dots each time.
+If a dot has three connections it cannot be used anymore.
 If a player cannot draw a new connection without crossing another one the other player wins.
 
 [//]: # (add photo from class here)
 ![Example Image](content/day01/test.jpg)
-
-```js
-// Javascript code with syntax highlighting.
-var fun = function lang(l) {
-  dateformat.i18n = require('./lang/' + l)
-  return true;
-}
-```
 
 ## Playing around with p5
 ### Mountain Skiers
@@ -27,64 +19,15 @@ By playing around with parameters and by chance I was left with lines somewhat r
 So not only did I generate art, but my concept of what I wanted to make generated itself, step by step.
 
 I expanded on that and now I am left with choosing random positions on the screen, drawing two lines downwards at an angle to create
-the mountain ridge. 
+the mountain ridge.
 
 Next, I calculate the outside bounds of the mountain ridge to create a shape where I draw some more random dots
-that move, resembling falling snow. 
+that move, resembling falling snow.
 
 I use some more randomly placed dots that move downwards and to the side randomly, which are
-occluded by the shape outside of the mountain ridge and placed at the top of the screen again once they reach the bottom. 
+occluded by the shape outside of the mountain ridge and placed at the top of the screen again once they reach the bottom.
 These randomly placed dots then leave a trail to resemble skiers going down the mountains.
 
 {% raw %}
 <iframe src="content/day01/01/embed.html" width="100%" height="450" frameborder="no"></iframe>
 {% endraw %}
-
-# Day 02
-## Grids
-### Pendulums in a Grid
-Double pendulums can be very chaotic with only slight changes in parameters.
-But if we use a double pendulum to draw a trail patterns start to emerge.
-
-Here I mirror the trail multiple times around the physics simulated pendulum to generate a kaleidoscopic flower-like shape.
-Next, I place multiple of these pendulums in a grid, shift each row's position to make the overall composition a bit more interesting, 
-and finally shift the colors of the trails the pendulums leave.
-
-{% raw %}
-<iframe src="content/day02/01/embed.html" width="100%" height="450" frameborder="no"></iframe>
-{% endraw %}
-
-### Mona Lisa
-Two images are sampled at the coordinates of a grid.
-The color of the pixel at that coordinate decides the color and size of the circle then drawn in the grid.
-By interpolating between the color of a pixel from both images a morphing effect is achieved.
-
-{% raw %}
-<div style="position:relative;width:100%;padding-bottom:150%;height:0;overflow:hidden;">
-  <iframe 
-    src="content/day02/02/embed.html" 
-    style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;">
-  </iframe>
-</div>
-{% endraw %}
-
-# Day 03
-## Time
-### Solar System
-To understand time, perhaps we can start to look at how we measure it.
-Our units of time, in many cultures, were derived from the solar system - an objective measurement of motion in an astronomical sense.
-Although a very objective take, the solar system also visualizes the insignificance of a human's life, or even humanity's existence,
-which is a blip in time relative to the beginning of our universe. 
-Just imagine you were living on neptune. One year would take around two human lives, or 164.8 years.
-
-# Day 04
-## Drawing Machines
-### Bubble Machine
-I started drawing circles at the mouse and came up with the following rule:
-The velocity of the mouse determines the radius of the circle.
-As I was drawing with this machine it reminded me of air bubbles in water.
-Inspired by this I animated the bubbles surfacing to the top of the screen.
-Just like a bubble popping, they play a sound when reaching the top - the pitch depending on the radius of the bubble.
-By quantizing the pitch of the sound to a pentatonic scale no "wrong" (or dissonant) notes can be played.
-I chose the sound of a kalimba for this, because - naturally - many kalimbas are tuned to a pentatonic scale.
-Finally, by pressing the mouse button, drawing circles can be interrupted to have some more control over rhythm.

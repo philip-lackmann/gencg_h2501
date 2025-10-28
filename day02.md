@@ -25,3 +25,19 @@ By interpolating between the color of a pixel from both images a morphing effect
   </iframe>
 </div>
 {% endraw %}
+
+
+
+
+
+[//]: # (    How did your initial paper sketches influence your digital pattern? Did anything change in translation?)
+
+[//]: # (    What strategies did you use to balance order and randomness in your grid or pattern?)
+
+[//]: # (    Describe a moment when a mistake or unexpected result led to a new idea or direction.)
+
+[//]: # (    How did you approach making your pattern “infinite” or seamlessly tileable? What challenges did you face?)
+
+[//]: # (    How did working with code change your perception of artistic control compared to analog methods?)
+
+[//]: # (    What did you learn about the relationship between simple rules and complex outcomes?)

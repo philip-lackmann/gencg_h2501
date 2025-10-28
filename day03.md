@@ -10,3 +10,8 @@ Just imagine you were living on neptune. One year would take around two human li
 {% raw %}
 <iframe src="content/day03/01/embed.html" width="100%" height="450" frameborder="no"></iframe>
 {% endraw %}
+
+
+[//]: # (    How does your clock represent time differently from a real one?)
+
+[//]: # (    What does cyclical vs linear mean in your design?)

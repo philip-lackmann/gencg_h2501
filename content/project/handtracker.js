@@ -8,38 +8,50 @@ const FINGERS = [
 
 function makeFingerState() {
     return {
-        // For curl, we map angle [angleStraight, angleMaxCurl] -> [0, 1]
-        angleStraight: (20 * Math.PI) / 180,   // ~20° considered "straight-ish"
-        angleMaxCurl:  (130 * Math.PI) / 180,  // ~130° considered "fully curled"
-
-        // For distance to palm we'll auto-calibrate
-        minDist: Infinity,
-        maxDist: 0
+        // Angle-based curl calibration
+        angleStraight: (20 * Math.PI) / 180,
+        angleMaxCurl:  (130 * Math.PI) / 180
     };
 }
 
 AFRAME.registerComponent('hand-params', {
     schema: {
-        handedness: { default: 'any' } // 'left', 'right', or 'any'
+        handedness: { default: 'any' }, // 'left', 'right', 'any'
+
+        // Debug
+        debug:     { default: false },
+        debugRate:{ default: 10 }
     },
 
     init: function () {
         this.refSpace = null;
         this.frame = null;
 
-        // Per-finger calibration state
         this.fingerState = {};
         for (const f of FINGERS) {
             this.fingerState[f.name] = makeFingerState();
         }
 
-        // Public data: updated every frame
-        this.fingerParams = []; // { fingerIndex, curl, distanceToPalm }[]
+        // Public output (updated every frame)
+        this.fingerParams = []; // { fingerIndex, fingerName, curl, angleRad }
+
+        this._dbg = {
+            lastUpdate: 0,
+            overlay: null
+        };
+
+        if (this.data.debug) this._ensureOverlay();
     },
 
-    tick: function () {
+    remove: function () {
+        if (this._dbg.overlay) this._dbg.overlay.remove();
+    },
+
+    tick: function (time) {
         const scene = this.el.sceneEl;
-        const renderer = scene.renderer;
+        const renderer = scene && scene.renderer;
+        if (!renderer || !renderer.xr) return;
+
         const session = renderer.xr.getSession();
         if (!session || !scene.frame) return;
 
@@ -56,86 +68,102 @@ AFRAME.registerComponent('hand-params', {
             if (this.data.handedness !== 'any' &&
                 inputSource.handedness !== this.data.handedness) continue;
 
-            const hand = inputSource.hand;
-
-            // Palm reference position
-            const wristSpace = hand.get('wrist');
-            if (!wristSpace) continue;
-            const wristPose = this.frame.getJointPose(wristSpace, this.refSpace);
-            if (!wristPose) continue;
-            const palmPos = wristPose.transform.position;
-
             for (const f of FINGERS) {
-                const result = this.computeFingerParams(hand, f, palmPos);
-                if (!result) continue;
-                this.fingerParams.push(result);
+                const result = this.computeFingerCurl(inputSource.hand, f);
+                if (result) this.fingerParams.push(result);
             }
         }
 
-        // Example: feed into your drawing machine here
-        // this.el.emit('hand-params-updated', { fingers: this.fingerParams });
+        if (this.data.debug) this._updateOverlay(time);
     },
 
-    computeFingerParams: function (hand, fingerDef, palmPos) {
+    computeFingerCurl: function (hand, fingerDef) {
         const prefix = fingerDef.prefix;
-        const state = this.fingerState[fingerDef.name];
+        const state  = this.fingerState[fingerDef.name];
 
-        // Get relevant joints
-        // For thumb, there is no "intermediate", so we’ll adjust.
-        const metaSpace  = hand.get(prefix + 'metacarpal');           // thumb-metacarpal
-        const proxSpace  = hand.get(prefix + 'phalanx-proximal');     // ...-phalanx-proximal
-        const interSpace = hand.get(prefix + 'phalanx-intermediate'); // except thumb (probably null)
-        const tipSpace   = hand.get(prefix + 'tip');                  // ...-tip
+        const meta  = hand.get(prefix + 'metacarpal');
+        const prox  = hand.get(prefix + 'phalanx-proximal');
+        const inter = hand.get(prefix + 'phalanx-intermediate');
+        const tip   = hand.get(prefix + 'tip');
 
-        const metaPose  = metaSpace  && this.frame.getJointPose(metaSpace,  this.refSpace);
-        const proxPose  = proxSpace  && this.frame.getJointPose(proxSpace,  this.refSpace);
-        const interPose = interSpace && this.frame.getJointPose(interSpace, this.refSpace);
-        const tipPose   = tipSpace   && this.frame.getJointPose(tipSpace,   this.refSpace);
+        const metaPose  = meta  && this.frame.getJointPose(meta,  this.refSpace);
+        const proxPose  = prox  && this.frame.getJointPose(prox,  this.refSpace);
+        const interPose = inter && this.frame.getJointPose(inter, this.refSpace);
+        const tipPose   = tip   && this.frame.getJointPose(tip,   this.refSpace);
 
         if (!metaPose || !proxPose || !tipPose) return null;
 
         const metaPos  = metaPose.transform.position;
         const proxPos  = proxPose.transform.position;
-        const interPos = interPose ? interPose.transform.position : null;
-        const tipPos   = tipPose.transform.position;
+        const interPos = interPose ? interPose.transform.position : tipPose.transform.position;
 
-        // ---------- CURL (0..1) ----------
-        // Main idea: angle at prox between (prox->meta) and (prox->inter or prox->tip)
         const v1 = subVec(metaPos, proxPos);
-        const v2 = subVec(interPos || tipPos, proxPos);
+        const v2 = subVec(interPos, proxPos);
 
-        const angle = angleBetween(v1, v2); // radians
+        const angle = angleBetween(v1, v2);
 
-        // Optional: auto-tune straight/curl angles a bit by tracking min/max seen
-        // (You can comment this out if you want fixed thresholds)
+        // Auto-calibration
         state.angleStraight = Math.min(state.angleStraight, angle);
         state.angleMaxCurl  = Math.max(state.angleMaxCurl,  angle);
 
         const curl = normalize01(angle, state.angleStraight, state.angleMaxCurl);
 
-        // ---------- DISTANCE FROM PALM (0..1) ----------
-        const d = dist(palmPos, tipPos);
-
-        // Auto-calibrate per finger
-        if (d < state.minDist) state.minDist = d;
-        if (d > state.maxDist) state.maxDist = d;
-
-        const distanceToPalm = normalize01(d, state.minDist, state.maxDist);
-
         return {
             fingerIndex: fingerDef.index,
+            fingerName:  fingerDef.name,
             curl,
-            distanceToPalm
+            angleRad: angle
         };
+    },
+
+    // ---------------- Debug overlay ----------------
+
+    _ensureOverlay: function () {
+        const el = document.createElement('div');
+        el.style.cssText = `
+      position:fixed;
+      top:10px;
+      left:10px;
+      z-index:9999;
+      font:12px monospace;
+      background:rgba(0,0,0,0.85);
+      color:#fff;
+      padding:10px;
+      border-radius:6px;
+      white-space:pre;
+      pointer-events:none;
+    `;
+        document.body.appendChild(el);
+        this._dbg.overlay = el;
+    },
+
+    _updateOverlay: function (time) {
+        const interval = 1000 / this.data.debugRate;
+        if (time - this._dbg.lastUpdate < interval) return;
+        this._dbg.lastUpdate = time;
+
+        const lines = ['hand-params (curl only)\n'];
+
+        for (const f of this.fingerParams) {
+            lines.push(
+                `${f.fingerName.padEnd(6)} ` +
+                `curl:${f.curl.toFixed(2)} ` +
+                `angle:${(f.angleRad * 180 / Math.PI).toFixed(0)}°`
+            );
+        }
+
+        this._dbg.overlay.textContent = lines.join('\n');
     }
 });
+
+// ---------------- Math helpers ----------------
 
 function subVec(a, b) {
     return { x: a.x - b.x, y: a.y - b.y, z: a.z - b.z };
 }
 
 function dot(a, b) {
-    return a.x*b.x + a.y*b.y + a.z*b.z;
+    return a.x * b.x + a.y * b.y + a.z * b.z;
 }
 
 function mag(v) {
@@ -146,16 +174,10 @@ function angleBetween(a, b) {
     const ma = mag(a), mb = mag(b);
     if (!ma || !mb) return 0;
     let c = dot(a, b) / (ma * mb);
-    c = Math.max(-1, Math.min(1, c));
-    return Math.acos(c); // radians
+    return Math.acos(Math.max(-1, Math.min(1, c)));
 }
 
-function dist(a, b) {
-    return Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z);
-}
-
-function normalize01(value, minValue, maxValue) {
-    if (maxValue <= minValue) return 0;
-    const t = (value - minValue) / (maxValue - minValue);
-    return Math.max(0, Math.min(1, t));
+function normalize01(value, min, max) {
+    if (max <= min) return 0;
+    return Math.max(0, Math.min(1, (value - min) / (max - min)));
 }

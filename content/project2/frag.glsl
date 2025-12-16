@@ -1,9 +1,4 @@
-/* This animation is the material of my first youtube tutorial about creative
-   coding, which is a video in which I try to introduce programmers to GLSL
-   and to the wonderful world of shaders, while also trying to share my recent
-   passion for this community.
-                                       Video URL: https://youtu.be/f4s1h2YETNY
-*/
+/* Credits go to kishimisu: https://youtu.be/f4s1h2YETNY*/
 
 #ifdef GL_ES
 precision mediump float;

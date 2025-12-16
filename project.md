@@ -14,14 +14,14 @@ Although, seemingly chaotic, they consist of simple repeating shapes - in the di
 In the beginning I used A-Frame to use the built-in hand tracking. However, it was tricky to get to work and
 a limitation was that it only works with a VR headset supporting hand tracking.
 {% raw %}
-<iframe src="content/project2/01/embed.html" width="100%" height="450" frameborder="no"></iframe>
+<iframe src="content/project2/iteration-01/embed.html" width="100%" height="450" frameborder="no"></iframe>
 {% endraw %}
 
 ## Iteration 02
 Due to the limitation mentioned in iteration 01 I switched to ml5.js together with p5.js for the visuals.
 For a simple proof of concept I used the hand tracking to make the index finger interpolate the color of the shader.
 {% raw %}
-<iframe src="content/project2/02/embed.html" width="100%" height="450" frameborder="no"></iframe>
+<iframe src="content/project2/iteration-02/embed.html" width="100%" height="450" frameborder="no"></iframe>
 {% endraw %}
 
 ## Current Final Project

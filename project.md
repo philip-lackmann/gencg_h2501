@@ -1,12 +1,14 @@
 # Project
 The main concept for this project is to create a drawing machine using finger tracking to control different parameters,
 based on how much each finger is curled. This allows for many different combinations, since you end up with 10 inputs, 
-which can have any value between 0 and 1.
+which can have any value between 0 and 1. The body can therefore be used as an expressive tool to generate different outputs.
 
 I wanted to realize this in 3D to make the experience more immersive, so I decided that shaders are the best approach
 to make this work.
 
 My main inspiration for the visuals comes from psychedelic artwork, such as this: https://www.pinterest.com/stevebroache/fractals/
+Fractals can also be found throughout nature: https://www.mathnasium.com/math-centers/hydepark/news/fractals-in-nature
+Although, seemingly chaotic, they consist of simple repeating shapes - in the digital world based on mathematical functions.
 
 ## Iteration 01
 In the beginning I used A-Frame to use the built-in hand tracking. However, it was tricky to get to work and

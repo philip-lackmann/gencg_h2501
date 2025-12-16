@@ -7,6 +7,7 @@ I wanted to realize this in 3D to make the experience more immersive, so I decid
 to make this work.
 
 My main inspiration for the visuals comes from psychedelic artwork, such as this: [https://www.pinterest.com/stevebroache/fractals/](https://www.pinterest.com/stevebroache/fractals/)
+
 Fractals can also be found throughout nature: [https://www.mathnasium.com/math-centers/hydepark/news/fractals-in-nature](https://www.mathnasium.com/math-centers/hydepark/news/fractals-in-nature)
 Although, seemingly chaotic, they consist of simple repeating shapes - in the digital world based on mathematical functions.
 
@@ -27,6 +28,7 @@ For a simple proof of concept I used the hand tracking to make the index finger 
 ## Current Final Project
 Finally, I took a deeper dive into the world of shaders and found a shader creating fractal patterns from circles with 
 differently tiled grids layered over each other.
+
 Credits: [https://www.shadertoy.com/view/mtyGWy](https://www.shadertoy.com/view/mtyGWy)
 
 I then edited this shader to manipulate different parameters using the curl of the fingers.
@@ -43,5 +45,6 @@ Pinky: Increasing the color contrast.
 ## What's next
 In the future I would like to experiment with different functions to change the circle shapes of the shader. 
 One option is using cellular noise, such as Voronoi, to create more organic patterns: [https://thebookofshaders.com/12/](https://thebookofshaders.com/12/)
+
 Additionally, using more extreme domain warping could create some interesting effects, by distorting the UV coordinates,
 like wrinkling a paper: [https://thebookofshaders.com/13/](https://thebookofshaders.com/13/)

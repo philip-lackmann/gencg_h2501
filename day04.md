@@ -71,6 +71,10 @@ For the image to traverse I used a simple [topographic map](https://freesvg.org/
 Finally, I decided to use the sampled pixel's luminance to decide the ink trail's thickness, while the gradient magnitude and angle affect
 the "vibration" circles maximum radius and speed.
 
+{% raw %}
+<iframe src="content/day04/03/embed.html" width="100%" height="450" frameborder="no"></iframe>
+{% endraw %}
+
 #### Outputs
 {% raw %}
 <img src="content/day04/03/output01.png" alt="Output 1" style="max-width:100%;">

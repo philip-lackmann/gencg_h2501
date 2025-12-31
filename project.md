@@ -25,7 +25,7 @@ For a simple proof of concept I used the hand tracking to make the index finger 
 <iframe src="content/project2/iteration-02/embed.html" width="100%" height="450" frameborder="no"></iframe>
 {% endraw %}
 
-## Current Final Project
+## Presented Final Project
 Finally, I took a deeper dive into the world of shaders and found a shader creating fractal patterns from circles with 
 differently tiled grids layered over each other.
 
@@ -39,12 +39,37 @@ Ring: Interpolating between two color palettes.
 Pinky: Increasing the color contrast.
 
 {% raw %}
-<iframe src="content/project2/embed.html" width="100%" height="450" frameborder="no"></iframe>
+<iframe src="content/project2/iteration-03/embed.html" width="100%" height="450" frameborder="no"></iframe>
 {% endraw %}
 
-## What's next
-In the future I would like to experiment with different functions to change the circle shapes of the shader. 
+## What's next / Updated Final Project
+I wanted to expand on the shader, which was visually still close to the code reference, using circles for signed distance functions.
+Additionally, I wanted something closer to my initial inspiration, with organic patterns, inspired by nature.
+
 One option is using cellular noise, such as Voronoi, to create more organic patterns: [https://thebookofshaders.com/12/](https://thebookofshaders.com/12/)
 
 Additionally, using more extreme domain warping could create some interesting effects, by distorting the UV coordinates,
 like wrinkling a paper: [https://thebookofshaders.com/13/](https://thebookofshaders.com/13/)
+
+After implementing both of these I mapped the blend between pure coral-like voronoi to heavily warped fluid-like visuals to a finger.
+I also reduced the intensity of scaling the sphere and UVs, because, although being able to jump in and outside of the sphere
+it felt very unstable. 
+
+I also wanted some more contrasting colors to make the effect more extreme in that regard.
+Finally, I changed some mappings of parameters to the fingers, considering that the ring finger and pinky use the same
+tendon and therefore move together, while thumb and index are most independent.
+
+Thumb: Scale the sphere object the shader is on and the UVs
+Index: Morphing between clean, coral-like voronoi and fluid-like warping / distortion.
+Middle: Interpolating between two color palettes.
+Ring: Changing the speed of time-based modulation.
+Pinky: Increase / decrease the color contrast.
+
+{% raw %}
+<iframe src="content/project2/embed.html" width="100%" height="450" frameborder="no"></iframe>
+<p><strong>Final Recording</strong></p>
+<video width="640" controls>
+  <source src="content/project2/recording.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+{% endraw %}

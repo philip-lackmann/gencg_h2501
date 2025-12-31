@@ -63,17 +63,19 @@ function draw() {
     myShader.setUniform("uTime", millis() / 1000);
 
     // Gentle modulation ranges
-    myShader.setUniform("uScale", modAroundBase(1.2, 0.5, index));
-    myShader.setUniform("uSpeed", 1.0/*modAroundBase(1.0, 0.05, index)*/);
+    myShader.setUniform("uSpeed", modAroundBase(0.6, 0.4, ring));
     myShader.setUniform("uWarp", 0.3/*modAroundBase(0.30, 0.12, middle)*/);
-    myShader.setUniform("uDetail", constrain(modAroundBase(0.35, 0.25, middle), 0, 1));
 
-    const paletteMix = constrain(ring, 0, 1);
+    const paletteMix = constrain(middle, 0, 1);
     myShader.setUniform("uPaletteMix", paletteMix);
 
-    myShader.setUniform("uContrast", modAroundBase(0.55, 1.0, pinky));
+    myShader.setUniform("uDetail", constrain(modAroundBase(0.35, 0.25, index), 0, 1));
+    myShader.setUniform("uMorph", modAroundBase(0.5, 0.5, index));
 
-    sphere(200 + thumb * 500, 96, 96);
+    myShader.setUniform("uContrast", modAroundBase(0.5, 0.5, pinky));
+
+    myShader.setUniform("uScale", modAroundBase(1.2, 0.2, thumb));
+    sphere(modAroundBase(800, 100, thumb), 96, 96);
     pop();
 
     drawFingerTrackingDebug();

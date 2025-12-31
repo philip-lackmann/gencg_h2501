@@ -4,6 +4,8 @@ const totalImages = 20;
 let bgImages = [];
 const totalBgImages = 3;
 
+let regenerateBtn;
+
 function preload() {
     for (let i = 1; i <= totalImages; i++) {
         let filename = `./img/img${String(i).padStart(2, '0')}.png`;
@@ -18,6 +20,16 @@ function preload() {
 
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
+
+    regenerateBtn = createButton('Regenerate');
+    regenerateBtn.position(20, 20);
+    regenerateBtn.mousePressed(generateFace);
+
+    generateFace();
+}
+
+function generateFace() {
+    clear();
 
     let maxW = width * 0.2;
     let maxH = height * 0.2;
